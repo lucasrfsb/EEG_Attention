@@ -11,7 +11,7 @@ from pylab import *
 df_multi_rest=pd.read_csv('dataset_arith_rest_csv/Subject00_2.csv', sep=',',header=None)
 # df2_multi_arith=pd.read_csv('f3_cz_arith.csv', sep=',',header=None)
 
-df_rest_fp1=df_multi_rest.iloc[ : , 0 ]
+df_rest_fp1=df_multi_rest.iloc[ : , 0:1 ]
 
 print (df_rest_fp1)
 

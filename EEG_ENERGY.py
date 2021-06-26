@@ -8,15 +8,15 @@ import matplotlib.pyplot as plt
 import scipy
 from pylab import *
 
-df_multi_rest=pd.read_csv('dataset_arith_rest_csv/Subject00_2.csv', sep=',',header=None)
+
 # df_multi_rest=pd.read_csv('dataset_arith_rest_csv/test_csv.csv', sep=',',header=None)
 # df2_multi_arith=pd.read_csv('f3_cz_arith.csv', sep=',',header=None)
 
-df_multi_rest=df_multi_rest.iloc[ : , 0:6 ]
 
-def energy_one_sample (sample, sample_max):
 
-	sample_size = 15000 * sample_max
+def energy_one_sample (sample):
+
+
 	sample_step = 15000
 	fft_size = round(sample_step/2 + 1)
 
@@ -30,7 +30,7 @@ def energy_one_sample (sample, sample_max):
 	# print ("df multi rest \n",df_multi_rest)
 	# print ("\ndf multi rest shape ", df_multi_rest.shape)
 
-	np_rest = np.array(df_multi_rest)
+	np_rest = np.array(df_multi)
 	# print("np shape shape",df_multi_rest.shape)
 
 	##FFT
@@ -86,14 +86,33 @@ def energy_one_sample (sample, sample_max):
 		Energy_rest[ 4 , cont] = freq_data[gamma_range, cont].sum() 
 		cont = cont + 1
 
+	Energy_rest= Energy_rest.flatten('F')
+
 	print ("ENERGY: ")
 	print(Energy_rest)
 	print(Energy_rest.shape)
+
+#MAIN
+
+
+df_multi=pd.read_csv('dataset_arith_rest_csv/Subject00_1.csv', sep=',',header=None)
+df_multi=df_multi.iloc[ : , 0:6 ]
+
+rest_sample = 1
+rest_sample_max = 6
+
+while rest_sample <= rest_sample_max:
+	energy_one_sample (rest_sample)
+	rest_sample = rest_sample + 1
+
+df_multi=pd.read_csv('dataset_arith_rest_csv/Subject00_2.csv', sep=',',header=None)
+df_multi=df_multi.iloc[ : , 0:6 ]
 
 arith_sample = 1
 arith_sample_max = 2
 
 while arith_sample <= arith_sample_max:
-	energy_one_sample (arith_sample, arith_sample_max)
+	energy_one_sample (arith_sample)
 	arith_sample = arith_sample + 1
 
+##

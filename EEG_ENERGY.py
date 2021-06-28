@@ -14,7 +14,7 @@ from pylab import *
 
 
 
-def energy_one_sample (sample):
+def energy_one_sample (sample, data_type, subject):
 
 
 	sample_step = 15000
@@ -86,33 +86,79 @@ def energy_one_sample (sample):
 		Energy_rest[ 4 , cont] = freq_data[gamma_range, cont].sum() 
 		cont = cont + 1
 
-	Energy_rest= Energy_rest.flatten('F')
+	Energy_rest = Energy_rest.flatten('F')
+
+	if data_type == 1:
+		Energy_rest = np.append( Energy_rest, [0] )
+		proc_data_rest [ (sample - 1) + subject * 6 , 0:31 ] = Energy_rest
+	else:
+		Energy_rest = np.append( Energy_rest, [1] )
+		proc_data_arith [ (sample - 1) + subject * 2 , 0:31 ] = Energy_rest	
 
 	print ("ENERGY: ")
 	print(Energy_rest)
 	print(Energy_rest.shape)
 
+
 #MAIN
 
+proc_data_rest = np.zeros(( 12,31 ))
+proc_data_arith = np.zeros(( 4,31 ))
 
-df_multi=pd.read_csv('dataset_arith_rest_csv/Subject00_1.csv', sep=',',header=None)
-df_multi=df_multi.iloc[ : , 0:6 ]
+##
 
 rest_sample = 1
 rest_sample_max = 6
+data_type = 1
+subject = 0
 
-while rest_sample <= rest_sample_max:
-	energy_one_sample (rest_sample)
-	rest_sample = rest_sample + 1
+files_rest = [ 'Subject00_1.csv', 'Subject01_1.csv' ]
 
-df_multi=pd.read_csv('dataset_arith_rest_csv/Subject00_2.csv', sep=',',header=None)
-df_multi=df_multi.iloc[ : , 0:6 ]
+for file in files_rest:
+
+	df_multi=pd.read_csv(file, sep=',',header=None)
+	df_multi=df_multi.iloc[ : , 0:6 ]
+
+	while rest_sample <= rest_sample_max:
+		energy_one_sample (rest_sample, data_type, subject)
+		rest_sample = rest_sample + 1
+	subject = subject + 1
+	rest_sample = 1
+		
 
 arith_sample = 1
 arith_sample_max = 2
+data_type = 2
+subject = 0
 
-while arith_sample <= arith_sample_max:
-	energy_one_sample (arith_sample)
-	arith_sample = arith_sample + 1
+files_arith = [ 'Subject00_2.csv', 'Subject01_2.csv' ]
+
+for file in files_arith:
+
+	df_multi=pd.read_csv(file, sep=',',header=None)
+	df_multi=df_multi.iloc[ : , 0:6 ]
+
+	while arith_sample <= arith_sample_max:
+		energy_one_sample (arith_sample, data_type, subject)
+		arith_sample = arith_sample + 1
+	subject = subject + 1
+	arith_sample = 1
+
+##
+
+
+
+print ("\n PROC DATA REST", proc_data_rest)
+print (proc_data_rest.shape)
+print ("\n PROC DATA ARITH", proc_data_arith)
+print (proc_data_arith.shape)
+
+proc_data = np.concatenate ((proc_data_rest, proc_data_arith))
+print ("\nPROC DATA ", proc_data)
+print (proc_data.shape)
+
+np.savetxt("frequency_parameters.csv", proc_data, delimiter=",")
+
+
 
 ##

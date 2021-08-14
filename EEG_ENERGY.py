@@ -14,6 +14,7 @@ from pylab import *
 
 
 
+
 def energy_one_sample (sample, data_type, subject):
 
 
@@ -37,12 +38,12 @@ def energy_one_sample (sample, data_type, subject):
 
 	temp = zeros (( sample_step,1 ))
 	Y_rest=  np.zeros(( fft_size , 1 ))
-	freq_data = np.zeros (( fft_size , 6 ))
+	freq_data = np.zeros (( fft_size , 2 ))
 
 	lines = (sample - 1) * sample_step + 1
 	cont = 0
 
-	while cont < 6:
+	while cont < 2:
 		temp  = np_rest[ lines : (lines + sample_step ) , cont ]
 		# print (np_rest[ lines : (lines + data_step - 1), cont  ])
 		Y_rest = rfftn(temp)
@@ -59,7 +60,7 @@ def energy_one_sample (sample, data_type, subject):
 
 	#ENERGY
 
-	Energy_rest = np.zeros((5,6))
+	Energy_rest = np.zeros((5,2))
 	N_=len(ps_rest)
 
 	i=0
@@ -78,7 +79,7 @@ def energy_one_sample (sample, data_type, subject):
 	gamma_range = np.arange(freq_high_beta_stop, freq_gamma, 1)
 
 	cont = 0
-	while cont < 6:
+	while cont < 2:
 		Energy_rest[ 0 , cont] = freq_data[before_alfa_range, cont].sum()
 		Energy_rest[ 1 , cont] = freq_data[alfa_range, cont].sum() 
 		Energy_rest[ 2 , cont] = freq_data[low_beta_range, cont].sum() 
@@ -100,10 +101,12 @@ def energy_one_sample (sample, data_type, subject):
 	print(Energy_rest.shape)
 
 
-#MAIN
 
-proc_data_rest = np.zeros(( 12,31 ))
-proc_data_arith = np.zeros(( 4,31 ))
+
+#MAIN
+SAMPLE_ = 0
+proc_data_rest = np.zeros(( 210,11 ))
+proc_data_arith = np.zeros(( 72,11 ))
 
 ##
 
@@ -112,7 +115,15 @@ rest_sample_max = 6
 data_type = 1
 subject = 0
 
-files_rest = [ 'Subject00_1.csv', 'Subject01_1.csv' ]
+files_rest = [ 'Subject00_1.csv' , 'Subject09_1.csv' , 'Subject18_1.csv' , 'Subject27_1.csv',
+'Subject01_1.csv' , 'Subject10_1.csv' , 'Subject19_1.csv' , 'Subject28_1.csv',
+'Subject02_1.csv' , 'Subject11_1.csv' , 'Subject20_1.csv' , 'Subject29_1.csv',
+'Subject03_1.csv' , 'Subject12_1.csv' , 'Subject21_1.csv' , 'Subject30_1.csv',
+'Subject04_1.csv' , 'Subject13_1.csv' , 'Subject22_1.csv' , 
+'Subject05_1.csv' , 'Subject14_1.csv' , 'Subject23_1.csv' , 'Subject32_1.csv',
+'Subject06_1.csv' , 'Subject15_1.csv' , 'Subject24_1.csv' , 'Subject33_1.csv',
+'Subject07_1.csv' , 'Subject16_1.csv' , 'Subject25_1.csv' , 'Subject34_1.csv',
+'Subject08_1.csv' , 'Subject17_1.csv' , 'Subject26_1.csv' , 'Subject35_1.csv']
 
 for file in files_rest:
 
@@ -122,6 +133,8 @@ for file in files_rest:
 	while rest_sample <= rest_sample_max:
 		energy_one_sample (rest_sample, data_type, subject)
 		rest_sample = rest_sample + 1
+		SAMPLE_ = SAMPLE_ + 1
+		print("SAMPLE: ", SAMPLE_)
 	subject = subject + 1
 	rest_sample = 1
 		
@@ -131,7 +144,15 @@ arith_sample_max = 2
 data_type = 2
 subject = 0
 
-files_arith = [ 'Subject00_2.csv', 'Subject01_2.csv' ]
+files_arith = ['Subject00_2.csv' , 'Subject09_2.csv' , 'Subject18_2.csv' , 'Subject27_2.csv',
+'Subject01_2.csv' , 'Subject10_2.csv' , 'Subject19_2.csv' , 'Subject28_2.csv',
+'Subject02_2.csv' , 'Subject11_2.csv' , 'Subject20_2.csv' , 'Subject29_2.csv',
+'Subject03_2.csv' , 'Subject12_2.csv' , 'Subject21_2.csv' , 'Subject30_2.csv',
+'Subject04_2.csv' , 'Subject13_2.csv' , 'Subject22_2.csv' , 'Subject31_2.csv',
+'Subject05_2.csv' , 'Subject14_2.csv' , 'Subject23_2.csv' , 'Subject32_2.csv',
+'Subject06_2.csv' , 'Subject15_2.csv' , 'Subject24_2.csv' , 'Subject33_2.csv',
+'Subject07_2.csv' , 'Subject16_2.csv' , 'Subject25_2.csv' , 'Subject34_2.csv',
+'Subject08_2.csv' , 'Subject17_2.csv' , 'Subject26_2.csv' , 'Subject35_2.csv']
 
 for file in files_arith:
 

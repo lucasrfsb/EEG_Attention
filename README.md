@@ -12,7 +12,7 @@
 
 Dataset available in : EEG During Mental Arithmetic Tasks https://physionet.org/content/eegmat/1.0.0/ 
 
-EEG_Energy.py is the Fourier Transform and energy acquirer
+EEG_ENERGY.py is the Fourier Transform and energy acquirer
 
 Exports energy of electrodes to csv -> frequency_parameters.csv
 

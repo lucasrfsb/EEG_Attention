@@ -4,4 +4,4 @@
 #### Energy of Fourier Transform of each electrode was acquired and splited in 5 frequency bands
 #### After that Machine Learning techniques were used to make the attention identification
 #### 94% of accuracy was achived
-#### project in dev branch
+#### project in ![#c5f015](dev) `#c5f015` branch

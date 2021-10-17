@@ -28,7 +28,8 @@ proc_data_arith = np.zeros(( subjects*arith_sample_max,data_columns*freq_bands +
 
 def energy_one_sample (sample, data_type, subject):
 
-	
+## Parte 2: Realizar FFT	
+##***	
 	fft_size = round(sample_size/2 + 1) # Fourier transform size
 
 	line_cont = 0
@@ -36,8 +37,6 @@ def energy_one_sample (sample, data_type, subject):
 	peaces = 1 
 
 	np_rest = np.array(df_multi)
-
-	##FFT
 
 	temp = zeros (( sample_size,1 ))
 	Y_rest=  np.zeros(( fft_size , 1 )) 
@@ -50,14 +49,14 @@ def energy_one_sample (sample, data_type, subject):
 		temp  = np_rest[ lines : (lines + sample_size ) , cont ]
 		# print (np_rest[ lines : (lines + data_step - 1), cont  ])
 		Y_rest = rfftn(temp)
-		ps_rest = np.abs(Y_rest)**2
+		ps_rest = np.abs(Y_rest)**2	# abs(FFT)**2 will be useful for energy calculation
 		freq_data [ 0:fft_size , cont ] = ps_rest
 		cont = cont + 1
 
-	##
+##***##	
 
-	#ENERGY
-
+## Parte 3: Segmentação em 5 bandas de Frequência e calculo da energia
+##***
 	Energy_rest = np.zeros((freq_bands,data_columns))
 	N_=len(ps_rest)
 
@@ -83,7 +82,10 @@ def energy_one_sample (sample, data_type, subject):
 		Energy_rest[ 3 , cont] = freq_data[high_beta_range, cont].sum() 
 		Energy_rest[ 4 , cont] = freq_data[gamma_range, cont].sum() 
 		cont = cont + 1
-
+##***##
+		
+## Parte 4: Organização em linha para utilizar posteriormente como parâmetros
+##***
 	Energy_rest = Energy_rest.flatten('F')
 
 	print(Energy_rest.shape)
@@ -100,7 +102,7 @@ def energy_one_sample (sample, data_type, subject):
 	print(Energy_rest)
 	print(Energy_rest.shape)
 
-	##
+##***##
 
 
 #MAIN
@@ -121,6 +123,8 @@ files_rest = ['Subject00_1.csv' , 'Subject09_1.csv' , 'Subject18_1.csv' , 'Subje
 'Subject07_1.csv' , 'Subject16_1.csv' , 'Subject25_1.csv' , 'Subject34_1.csv',
 'Subject08_1.csv' , 'Subject17_1.csv' , 'Subject26_1.csv' , 'Subject35_1.csv']
 
+## Parte 1: Converter de CSV para DataFrame
+##***
 for file in files_rest:
 
 	df_multi=pd.read_csv(file, sep=',',header=None)
@@ -133,7 +137,7 @@ for file in files_rest:
 		print("SAMPLE: ", SAMPLE_)
 	subject = subject + 1
 	rest_sample = 1
-		
+##***##		
 
 arith_sample = 1
 data_type = 2
@@ -151,6 +155,8 @@ files_arith = ['Subject00_2.csv' , 'Subject09_2.csv' , 'Subject18_2.csv' , 'Subj
 
 SAMPLE_ = 0 #debug variable
 
+## Parte 1: Converter de CSV para DataFrame
+##***
 for file in files_arith:
 
 	df_multi=pd.read_csv(file, sep=',',header=None)
@@ -163,8 +169,7 @@ for file in files_arith:
 		print("SAMPLE: ", SAMPLE_)
 	subject = subject + 1
 	arith_sample = 1
-
-##
+##***##	
 
 ## DEBUG
 

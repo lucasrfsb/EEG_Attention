@@ -84,7 +84,8 @@ def energy_one_sample (sample, data_type, subject):
 		cont = cont + 1
 ##***##
 		
-## Parte 4: Organização em linha para utilizar posteriormente como parâmetros
+## Parte 4: Organização para utilizar posteriormente como parâmetros
+## 1/2
 ##***
 	Energy_rest = Energy_rest.flatten('F')
 
@@ -105,7 +106,8 @@ def energy_one_sample (sample, data_type, subject):
 ##***##
 
 
-#MAIN
+## Parte 1: Importar dados e converter de CSV para DataFrame
+##***
 
 SAMPLE_ = 0
 
@@ -123,8 +125,7 @@ files_rest = ['Subject00_1.csv' , 'Subject09_1.csv' , 'Subject18_1.csv' , 'Subje
 'Subject07_1.csv' , 'Subject16_1.csv' , 'Subject25_1.csv' , 'Subject34_1.csv',
 'Subject08_1.csv' , 'Subject17_1.csv' , 'Subject26_1.csv' , 'Subject35_1.csv']
 
-## Parte 1: Converter de CSV para DataFrame
-##***
+
 for file in files_rest:
 
 	df_multi=pd.read_csv(file, sep=',',header=None)
@@ -171,7 +172,10 @@ for file in files_arith:
 	arith_sample = 1
 ##***##	
 
-## DEBUG
+
+## Parte 4
+## 2/2
+##***
 
 print ("\n PROC DATA REST", proc_data_rest)
 print (proc_data_rest.shape)
@@ -184,4 +188,4 @@ print (proc_data.shape)
 
 np.savetxt("frequency_parameters_20_elec.csv", proc_data, delimiter=",") ## save final freqyency parameters in csv file 
 
-##
+##***##
